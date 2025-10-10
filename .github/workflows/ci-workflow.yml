@@ -1,0 +1,26 @@
+name: Workflow CI
+
+on:
+  push:
+    branches: [ "main" ]
+  pull_request:
+    branches: [ "main" ]
+
+jobs:
+
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+    - name: Build the Docker image
+      run: docker build -t liatrio_exercise:latest .
+
+    - name: Run app to test apprentice action
+      run: docker run -d -p 3000:3000 liatrio_exercise:latest
+    
+    - name: run tests
+      uses: liatrio/github-actions/apprentice-action@master
+      with:
+        url: http://localhost:3000
