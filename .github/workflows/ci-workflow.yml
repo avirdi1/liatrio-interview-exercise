@@ -18,7 +18,7 @@ jobs:
       run: docker build -t liatrio_exercise:latest .
 
     - name: Run app to test apprentice action
-      run: docker run -p 3000:3000 liatrio_exercise:latest
+      run: docker run -d -p 3000:3000 liatrio_exercise:latest
     
     - name: run tests
       uses: liatrio/github-actions/apprentice-action@master
