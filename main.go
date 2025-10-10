@@ -17,5 +17,5 @@ func main() {
 		return c.JSON(MT{"My name is Anmol Virdi", time.Now().Unix()})
 	})
 
-	app.Listen(":3000")
+	app.Listen(":80")
 }
