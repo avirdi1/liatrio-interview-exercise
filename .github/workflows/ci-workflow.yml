@@ -19,7 +19,8 @@ jobs:
 
     - name: Run app to test apprentice action
       run: docker run -d -p 80:80 liatrio_exercise:latest
-      sleep 5
+      with:
+        time: '7s'
     
     - name: run tests
       uses: liatrio/github-actions/apprentice-action@master
