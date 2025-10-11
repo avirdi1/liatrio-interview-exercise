@@ -20,5 +20,5 @@ func main() {
 			"timestamp": time.Now().UnixMilli()})
 	})
 
-	app.Listen(":3000")
+	app.Listen(":80")
 }
