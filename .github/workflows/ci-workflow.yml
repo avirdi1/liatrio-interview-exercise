@@ -21,6 +21,12 @@ jobs:
       run: |
         docker run -d -p 80:80 liatrio_exercise:latest
         sleep 7
-    
+
+    - name: Debug raw response
+      run: |
+        curl -i http://localhost/ | sed -n '1,20p'
+        echo "---- raw bytes ----"
+        curl -s http://localhost/ | od -An -t x1
+
     - name: run tests
       uses: liatrio/github-actions/apprentice-action@master
