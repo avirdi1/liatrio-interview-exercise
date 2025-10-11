@@ -1,8 +1,8 @@
 package main
 
 import (
-	"strconv"
-	//"encoding/json"
+	
+	"encoding/json"
 	"time" 
 	"github.com/gofiber/fiber/v2"
 )
@@ -12,6 +12,10 @@ type MT struct {
 	Timestamp int64 `json:"timestamp"`
 }
 */
+type Resp struct {
+    Message   string `json:"message"`
+    Timestamp int64  `json:"timestamp"`
+}
 
 func main() {
 	app := fiber.New()
@@ -29,11 +33,14 @@ func main() {
 		c.Set("Content-Type", "application/json")
 		return c.Send(b)
 		*/
-		ts := strconv.FormatInt(time.Now().UnixMilli(), 10)
-		// exact string, no spaces or newline outside of JSON syntax
-		body := `{"message":"My name is Anmol Virdi","timestamp":` + ts + `}`
-		c.Set("Content-Type", "application/json")
-		return c.SendString(body)
+		    r := Resp{
+        Message:   "My name is Anmol Virdi",
+        Timestamp: time.Now().UnixMilli(),
+		}
+		b, _ := json.Marshal(r) // compact JSON, no spaces or newline
+		c.Response().Header.SetContentType(fiber.MIMEApplicationJSON)
+		c.Response().SetBodyRaw(b) // send bytes exactly
+		return nil
 	})
 
 	app.Listen(":80")
