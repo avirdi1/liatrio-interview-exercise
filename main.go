@@ -14,7 +14,7 @@ func main() {
 	app := fiber.New()
 
 	app.Get("/", func(c *fiber.Ctx) error {
-		return c.JSON(MT{"My name is Anmol Virdi", time.Now().Unix()})
+		return c.JSONCompact(MT{"My name is Anmol Virdi", time.Now().UnixMilli()})
 	})
 
 	app.Listen(":80")
