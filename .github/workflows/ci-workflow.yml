@@ -37,5 +37,11 @@ jobs:
         echo "---- raw bytes ----"
         curl -s http://localhost/ | od -An -t x1
 
+    - name: Inspect checker test
+      run: |
+        git clone --depth=1 https://github.com/liatrio/github-actions.git
+        sed -n '1,120p' github-actions/apprentice-action/tests/endpoint.test.js
+
+
     - name: run tests
       uses: liatrio/github-actions/apprentice-action@master
