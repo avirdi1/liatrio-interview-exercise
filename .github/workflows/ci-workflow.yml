@@ -22,6 +22,15 @@ jobs:
         docker run -d -p 80:80 liatrio_exercise:latest
         sleep 7
 
+    - name: Verify body is truly minified (self-check)
+      run: |
+        BODY="$(curl -s http://localhost/)"
+        echo "BODY=$BODY"
+        node -e "const b=process.env.BODY; const m=JSON.stringify(JSON.parse(b)); if(b===m){console.log('OK: body equals JSON.stringify(JSON.parse(body)))'); process.exit(0)} else {console.log('NOT MINIFIED'); console.log('MIN='+m); process.exit(1)}"
+      env:
+        BODY: "$(curl -s http://localhost/)"
+
+
     - name: Debug raw response
       run: |
         curl -i http://localhost/ | sed -n '1,20p'
