@@ -43,5 +43,8 @@ jobs:
         sed -n '1,120p' github-actions/apprentice-action/tests/endpoint.test.js
 
 
-    - name: run tests
-      uses: liatrio/github-actions/apprentice-action@master
+    #- name: run tests
+    #  uses: liatrio/github-actions/apprentice-action@master
+
+    - name: Verify
+      uses: ./.github/actions/verify-apprentice
