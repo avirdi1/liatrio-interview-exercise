@@ -22,29 +22,29 @@ jobs:
         docker run -d -p 80:80 liatrio_exercise:latest
         sleep 7
 
-    - name: Verify body is truly minified (self-check)
-      run: |
-        BODY="$(curl -s http://localhost/)"
-        echo "BODY=$BODY"
-        node -e "const b=process.env.BODY; const m=JSON.stringify(JSON.parse(b)); if(b===m){console.log('OK: body equals JSON.stringify(JSON.parse(body)))'); process.exit(0)} else {console.log('NOT MINIFIED'); console.log('MIN='+m); process.exit(1)}"
-      env:
-        BODY: "$(curl -s http://localhost/)"
+    #- name: Verify body is truly minified (self-check)
+    #  run: |
+    #    BODY="$(curl -s http://localhost/)"
+    #    echo "BODY=$BODY"
+    #    node -e "const b=process.env.BODY; const m=JSON.stringify(JSON.parse(b)); if(b===m){console.log('OK: body equals JSON.stringify(JSON.parse(body)))'); process.exit(0)} else {console.log('NOT MINIFIED'); console.log('MIN='+m); process.exit(1)}"
+    #  env:
+    #    BODY: "$(curl -s http://localhost/)"
 
 
-    - name: Debug raw response
-      run: |
-        curl -i http://localhost/ | sed -n '1,20p'
-        echo "---- raw bytes ----"
-        curl -s http://localhost/ | od -An -t x1
+    #- name: Debug raw response
+    #  run: |
+    #    curl -i http://localhost/ | sed -n '1,20p'
+    #    echo "---- raw bytes ----"
+    #    curl -s http://localhost/ | od -An -t x1
 
-    - name: Inspect checker test
-      run: |
-        git clone --depth=1 https://github.com/liatrio/github-actions.git
-        sed -n '1,120p' github-actions/apprentice-action/tests/endpoint.test.js
+    #- name: Inspect checker test
+    #  run: |
+    #    git clone --depth=1 https://github.com/liatrio/github-actions.git
+    #   sed -n '1,120p' github-actions/apprentice-action/tests/endpoint.test.js
 
 
-    #- name: run tests
-    #  uses: liatrio/github-actions/apprentice-action@master
+    - name: run tests
+      uses: liatrio/github-actions/apprentice-action@v1.0.0
 
-    - name: Verify
-      uses: ./.github/actions/verify-apprentice
+    #- name: Verify
+    #  uses: ./.github/actions/verify-apprentice
