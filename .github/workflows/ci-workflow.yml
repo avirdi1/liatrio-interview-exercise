@@ -2,9 +2,9 @@ name: Workflow CI
 
 on:
   push:
-    branches: [ "actions" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "actions" ]
+    branches: [ "main" ]
 
 jobs:
 
@@ -14,37 +14,15 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      # we need the docker built and running so it is live for the actions tests to run
     - name: Build the Docker image
       run: docker build -t liatrio_exercise:latest .
 
-    - name: Run app to test apprentice action
+    - name: Run app to test
       run: |
         docker run -d -p 80:80 liatrio_exercise:latest
         sleep 7
 
-    #- name: Verify body is truly minified (self-check)
-    #  run: |
-    #    BODY="$(curl -s http://localhost/)"
-    #    echo "BODY=$BODY"
-    #    node -e "const b=process.env.BODY; const m=JSON.stringify(JSON.parse(b)); if(b===m){console.log('OK: body equals JSON.stringify(JSON.parse(body)))'); process.exit(0)} else {console.log('NOT MINIFIED'); console.log('MIN='+m); process.exit(1)}"
-    #  env:
-    #    BODY: "$(curl -s http://localhost/)"
-
-
-    #- name: Debug raw response
-    #  run: |
-    #    curl -i http://localhost/ | sed -n '1,20p'
-    #    echo "---- raw bytes ----"
-    #    curl -s http://localhost/ | od -An -t x1
-
-    #- name: Inspect checker test
-    #  run: |
-    #    git clone --depth=1 https://github.com/liatrio/github-actions.git
-    #   sed -n '1,120p' github-actions/apprentice-action/tests/endpoint.test.js
-
-
-    - name: run tests
+    - name: Run tests
       uses: liatrio/github-actions/apprentice-action@v1.0.0
 
-    #- name: Verify
-    #  uses: ./.github/actions/verify-apprentice
