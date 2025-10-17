@@ -3,6 +3,7 @@ name: Workflow CI
 on:
   push:
     branches: [ "main" ]
+    paths: 
   pull_request:
     branches: [ "main" ]
 
@@ -14,13 +15,30 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      # we need the docker built and running so it is live for the actions tests to run
     - name: Build the Docker image
       run: docker build -t liatrio_exercise:latest .
 
-    - name: Run app to test apprentice action
-      run: docker run -d -p 3000:3000 liatrio_exercise:latest
-    
-    - name: run tests
-      uses: liatrio/github-actions/apprentice-action@master
+    - name: Run app to test
+      run: |
+        docker run -d -p 80:80 liatrio_exercise:latest
+        sleep 7
+
+    - name: Run tests
+      uses: liatrio/github-actions/apprentice-action@v1.0.0
+
+    - name: Log in to Docker Hub
+      uses: docker/login-action@v3.0.0
       with:
-        url: http://localhost:3000
+        # To keep secret information hidden, use Github Secrets
+        username: ${{ secrets.DOCKER_USERNAME }}
+        password: ${{ secrets.DOCKER_PASSWORD }}
+
+    - name: Tag image for Docker Hub
+      run: docker tag liatrio_exercise:latest docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
+
+    - name: Push image to Docker Hub
+      run: docker push docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
+
+    
+

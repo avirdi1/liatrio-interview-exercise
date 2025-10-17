@@ -8,9 +8,9 @@ RUN go mod download
 
 COPY . .
 
-ENV PORT=3000
+ENV PORT=80
 
-EXPOSE 3000
+EXPOSE 80
 
 RUN go build -o /liatrio_exercise .
 
