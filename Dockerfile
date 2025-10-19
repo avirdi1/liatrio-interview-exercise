@@ -9,7 +9,7 @@ RUN go mod download
 
 COPY . .
 
-# this tells the docker container to listen only on port 80
+# makes port 80 available so the app can be reached by web browsers
 EXPOSE 80
 
 # compiles go code into an executable file for ease of access
