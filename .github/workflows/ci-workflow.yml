@@ -3,7 +3,6 @@ name: Workflow CI
 on:
   push:
     branches: [ "main" ]
-    paths: 
   pull_request:
     branches: [ "main" ]
 
@@ -40,5 +39,18 @@ jobs:
     - name: Push image to Docker Hub
       run: docker push docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
 
-    
-
+  
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy the versioned image to AWS EC2
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ec2-user
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
+            docker rm -f liatrio-app || true
+            docker run -d --name liatrio-app --restart unless-stopped -p 80:80 docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
