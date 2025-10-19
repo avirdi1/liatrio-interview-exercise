@@ -12,7 +12,8 @@ func main() {
 	app.Get("/", func(c *fiber.Ctx) error {
 		return c.JSON(fiber.Map{
 			"message":"My name is Anmol Virdi",
-			"timestamp":time.Now().UnixMilli()})
+			"timestamp":time.Now().UnixMilli()},
+			"quote":"To be or not to be")
 	})
 
 	app.Listen(":80")
