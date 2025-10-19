@@ -14,7 +14,7 @@ func main() {
 		return c.JSON(fiber.Map{
 			"message":"My name is Anmol Virdi",
 			"timestamp":time.Now().UnixMilli(),
-			"quote":"To be or not to be"})
+			"update":"Test #1"})
 	})
 
 	app.Listen(":80") 
