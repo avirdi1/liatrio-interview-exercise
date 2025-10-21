@@ -2,7 +2,7 @@ name: CI & CD
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "actions" ]
   pull_request:
     branches: [ "main" ]
 
@@ -41,18 +41,18 @@ jobs:
       run: docker push docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
 
   
-  deploy:
-    needs: build 
-    runs-on: ubuntu-latest
-    steps:
-      - name: SSH into AWS EC2 and deploy the versioned image
-        uses: appleboy/ssh-action@v1.2.0
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ec2-user
-          key: ${{ secrets.EC2_SSH_KEY }}
-          # pulls the exact image to run and replaces the running container automatically if turned EC2 is turned off and turned back on
-          script: |
-            docker pull docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }} 
-            docker rm -f liatrio-app || true 
-            docker run -d --name liatrio-app --restart unless-stopped -p 80:80 docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
+  # deploy:
+  #   needs: build 
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: SSH into AWS EC2 and deploy the versioned image
+  #       uses: appleboy/ssh-action@v1.2.0
+  #       with:
+  #         host: ${{ secrets.EC2_HOST }}
+  #         username: ec2-user
+  #         key: ${{ secrets.EC2_SSH_KEY }}
+  #         # pulls the exact image to run and replaces the running container automatically if turned EC2 is turned off and turned back on
+  #         script: |
+  #           docker pull docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }} 
+  #           docker rm -f liatrio-app || true 
+  #           docker run -d --name liatrio-app --restart unless-stopped -p 80:80 docker.io/${{ secrets.DOCKER_USERNAME }}/liatrio_exercise:v${{ github.run_number }}
