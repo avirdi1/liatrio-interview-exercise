@@ -1,4 +1,5 @@
 # Liatrio Apprenticeship Interview Exercise
+[![CI & CD](https://github.com/avirdi1/liatrio-interview-exercise/actions/workflows/ci-cd-workflow.yml/badge.svg)](https://github.com/avirdi1/liatrio-interview-exercise/actions/workflows/ci-cd-workflow.yml)
 
 This project is a **Golang + Fiber** web application that returns a JSON response with my name (**Anmol Virdi**) and a Unix timestamp in milliseconds.  
 The app is **containerized using Docker**, automatically **built and tested through GitHub Actions**, and **deployed to an AWS EC2 instance** using Docker Hub as the image registry.
