@@ -1,18 +1,36 @@
-# Liatrio Apprenticeship Interview Excercise
+# Liatrio Apprenticeship Interview Exercise
 
-This project is a Golang and Fiber web application that returns a JSON which will contain my name (Anmol Virdi) and a timestamp. It is deployed via Docker and Github Actions to a cloud platform.
+This project is a **Golang + Fiber** web application that returns a JSON response with my name (**Anmol Virdi**) and a Unix timestamp in milliseconds.  
+The app is **containerized using Docker**, automatically **built and tested through GitHub Actions**, and **deployed to an AWS EC2 instance** using Docker Hub as the image registry.
+
+---
+
+## 🌐 Live Instance
+The live application can be accessed (when the EC2 instance is running) at:  
+👉 [http://54.176.194.82/](http://54.176.194.82/)
+
+---
+
+## What This Project Demonstrates
+1. Building a simple **Go Fiber API** that dynamically returns a JSON object.  
+2. **Containerizing** the application with Docker.  
+3. Using **GitHub Actions** to automate building, testing, versioning, and pushing to Docker Hub.  
+4. **Deploying** the versioned Docker image to a cloud platform (AWS EC2).  
+5. Showing **Continuous Delivery** by updating the app and seeing the change live.
+
+---
 
 ## How To Run Locally
 
 ```bash
-docker build -t liatrio_docker .
+# 1. Build the Docker image
+docker build -t liatrio_app .
 ```
 ```bash
-docker run -p 8080:80 liatrio_docker
+# 2. Run the container (maps local port 8080 to container port 80)
+docker run -p 8080:80 liatrio_app
 ```
-
-## To View
-
 ```bash
+# 3. To view locally
 curl http://localhost:8080
 ```
