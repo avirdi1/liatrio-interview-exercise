@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"time" 
 	"github.com/gofiber/fiber/v2"
 )
@@ -14,9 +15,15 @@ func main() {
 		return c.JSON(fiber.Map{
 			"message":"My name is Anmol Virdi",
 			"timestamp":time.Now().UnixMilli(),
-			"update":"Test #1",
+			//"update":"Test #1",
 			})
 	})
 
-	app.Listen(":80") 
+	port := os.Getenv("PORT")
+
+	if port == "" {
+		port = "80"
+	}
+
+	app.Listen(":" + port) 
 }
